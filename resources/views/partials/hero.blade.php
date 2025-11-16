@@ -4,12 +4,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center">
 
             <div class="text-center md:text-left animate-slideUp" style="animation-delay: 0.2s">
-                <span class="text-xl md:text-2xl text-gray-400 font-medium">Hello Buds</span>
 
-                <h1 class="mt-4 mb-4 flex flex-col items-center md:items-start">
-                    <span class="text-6xl md:text-7xl lg:text-5xl font-extrabold text-white mt-4 mb-4 leading-tight">
-                        I am
-                    </span>
                     <span class="text-5xl md:text-6xl lg:text-7xl font-extrabold text-brand-purple leading-tight">
                         {{ $biodata->nama_lengkap }}
                     </span>

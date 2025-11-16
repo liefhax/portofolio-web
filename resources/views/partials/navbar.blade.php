@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center">
 
             <a href="#home" class="text-2xl font-bold text-white tracking-tight">
-                Lief<span class="text-brand-purple">Creative</span>
+                Lief<span class="text-brand-purple">Portofolio</span>
             </a>
 
             <div class="hidden md:flex items-center space-x-8 lg:space-x-12">
