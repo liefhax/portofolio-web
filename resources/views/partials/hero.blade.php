@@ -1,60 +1,98 @@
-<section id="home"
-    class="bg-brand-black relative overflow-hidden w-full min-h-screen flex items-center justify-center pt-20 pb-10">
-    <div class="w-full px-6 md:px-12 z-10">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center">
+<section id="hero"
+    class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden scroll-mt-20"
+    {{-- START ALPINE DATA --}}
+    x-data="{
+        textName: '',
+        textJob: '',
+        fullName: '{{ addslashes($biodata->nama_lengkap) }}', // addslashes jaga-jaga ada tanda petik
+        fullJob: '// {{ addslashes($biodata->jabatan_singkat) }}',
+        phase: 'name', // phase: 'name', 'job', 'done'
 
-            <div class="text-center md:text-left animate-slideUp" style="animation-delay: 0.2s">
+        typewriter(text, targetVar, nextPhase) {
+            let i = 0;
+            let speed = 100; // Kecepatan ngetik (ms)
 
-                    <span class="text-5xl md:text-6xl lg:text-7xl font-extrabold text-brand-purple leading-tight">
-                        {{ $biodata->nama_lengkap }}
+            let interval = setInterval(() => {
+                if (i < text.length) {
+                    this[targetVar] += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        this.phase = nextPhase;
+                        if (nextPhase === 'job') {
+                            this.typewriter(this.fullJob, 'textJob', 'done');
+                        }
+                    }, 500); // Jeda sebelum pindah baris
+                }
+            }, speed);
+        },
+
+        init() {
+            // Delay dikit biar gak tabrakan sama loading awal
+            setTimeout(() => {
+                this.typewriter(this.fullName, 'textName', 'job');
+            }, 500);
+        }
+    }"
+>
+
+    {{-- 1. BACKGROUND LAYER (GRID 3D + VIGNETTE) --}}
+    <div class="retro-grid-wrapper">
+        <div class="retro-grid" id="moving-grid"></div>
+        <div class="retro-horizon"></div>
+        <div class="retro-vignette"></div>
+    </div>
+
+    {{-- 2. CONTENT LAYER --}}
+    <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 text-center">
+
+        {{-- Icon --}}
+        <div class="mb-6 text-cyan-400 animate-bounce inline-block" style="animation-duration: 3s;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 sm:h-16 sm:w-16 mx-auto drop-shadow-[0_0_15px_rgba(0,255,255,0.6)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+            </svg>
+        </div>
+
+        {{-- NAMA LENGKAP (Typewriter) --}}
+        <div class="min-h-text mb-4">
+            <h1 class="text-5xl sm:text-7xl md:text-8xl font-heading font-bold tracking-wide neon-text uppercase leading-tight inline-block">
+                <span x-text="textName"></span><span x-show="phase === 'name'" class="text-fuchsia-500 cursor-blink">_</span>
+            </h1>
+        </div>
+
+        {{-- JABATAN (Typewriter) --}}
+        <div class="min-h-text mb-6">
+            <p class="text-sm sm:text-xl md:text-2xl font-heading font-bold text-cyan-400 tracking-[0.3em] uppercase drop-shadow-md inline-block">
+                <span x-text="textJob"></span><span x-show="phase === 'job' || phase === 'done'" class="text-cyan-400 cursor-blink">_</span>
+            </p>
+        </div>
+
+        {{-- WRAPPER: Muncul setelah mengetik selesai (x-show="phase === 'done'") --}}
+        <div x-show="phase === 'done'"
+             x-transition:enter="transition ease-out duration-1000"
+             x-transition:enter-start="opacity-0 translate-y-5"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             style="display: none;"> {{-- style display none biar gak flash di awal --}}
+
+            {{-- DESKRIPSI --}}
+            <p class="text-xs sm:text-base text-cyan-200/70 max-w-2xl mx-auto font-mono leading-relaxed mb-10">
+                {{ $biodata->deskripsi_singkat_hero }}
+            </p>
+
+            {{-- BUTTON --}}
+            <div class="mt-8 flex justify-center">
+                <a href="#contact"
+                   class="group relative px-8 py-3 bg-transparent overflow-hidden rounded-none">
+                    <div class="absolute inset-0 w-full h-full bg-cyan-400/10 border border-cyan-400 group-hover:bg-cyan-400/20 transition-all duration-300"></div>
+                    <span class="relative text-cyan-400 font-mono font-bold tracking-wider group-hover:text-white transition-colors">
+                        > Get in touch_
                     </span>
-                </h1>
-                <p class="text-2xl md:text-3xl text-gray-300 mb-6 font-semibold">
-                    {{ $biodata->jabatan_singkat }}
-                </p>
-                <div class="w-24 h-1 bg-brand-purple mx-auto md:mx-0 mb-8"></div>
-                <p class="text-lg md:text-xl text-gray-400 max-w-lg mx-auto md:mx-0 mb-10 leading-relaxed">
-                    {{ $biodata->deskripsi_singkat_hero }}
-                </p>
-                <div class="flex justify-center md:justify-start space-x-6">
-                    <a href="{{ $biodata->link_cv }}"
-                        class="px-8 py-3.5 bg-brand-purple text-white font-semibold rounded-lg shadow-lg hover:shadow-brand-purple/40 hover:bg-opacity-90 transition-all duration-300 text-lg flex items-center gap-2">
-                        Download CV
-                    </a>
-                    <a href="#about"
-                        class="px-8 py-3.5 bg-gray-800 text-gray-300 font-semibold rounded-lg hover:bg-gray-700 transition-colors duration-300 text-lg">
-                        More
-                    </a>
-                </div>
-            </div>
-
-            <div class="relative flex flex-col items-center animate-fadeIn" style="animation-delay: 0.4s">
-                <div class="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] z-10">
-                    <img src="{{ asset($biodata->foto_profil) }}" alt="{{ $biodata->nama_lengkap }}"
-                        class="rounded-full object-cover w-full h-full border-4 border-gray-800 shadow-2xl" />
-                </div>
-
-                <div class="flex items-center space-x-6 mt-10 z-10">
-                    <span class="text-gray-400 font-medium text-lg">Find Me On</span>
-
-                    <a href="{{ $biodata->link_shop }}" target="_blank"
-                        class="text-gray-500 hover:text-brand-purple transition-colors p-2 bg-gray-800 rounded-full">
-                        <x-icons.store />
-                    </a>
-                    <a href="{{ $biodata->link_instagram }}" target="_blank"
-                        class="text-gray-500 hover:text-brand-purple transition-colors p-2 bg-gray-800 rounded-full">
-                        <x-icons.instagram />
-                    </a>
-                    <a href="{{ $biodata->link_linkedin }}" target="_blank"
-                        class="text-gray-500 hover:text-brand-purple transition-colors p-2 bg-gray-800 rounded-full">
-                        <x-icons.linkedin />
-                    </a>
-                    <a href="{{ $biodata->link_github_profil }}" target="_blank"
-                        class="text-gray-500 hover:text-brand-purple transition-colors p-2 bg-gray-800 rounded-full">
-                        <x-icons.github />
-                    </a>
-                </div>
+                    <div class="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent skew-x-12 group-hover:animate-[shimmer_1s_infinite]"></div>
+                </a>
             </div>
         </div>
+
     </div>
+
 </section>

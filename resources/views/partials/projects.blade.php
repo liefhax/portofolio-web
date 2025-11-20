@@ -1,40 +1,43 @@
-<section id="projects" class="py-20 bg-brand-black w-full">
-    <div class="w-full px-6 md:px-12 text-center fade-in max-w-6xl mx-auto">
-        <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
-            Latest Projects
-        </h2>
-        <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-12">
-            Ini adalah beberapa proyek pribadi yang pernah saya kerjakan...
-        </p>
+<section id="work" class="py-20 scroll-mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-4xl font-heading font-bold text-white mb-12" data-aos="fade-up">Latest Project //</h2>
 
-        <div class="flex flex-col space-y-8 mx-auto">
+        <div class="flex flex-col border-t border-zinc-700">
+            @forelse ($proyek as $item)
+                @php $imgId = 'project-img-' . $loop->iteration; @endphp
+                <a href="javascript:void(0)"
+                   class="group project-item-wrapper cursor-pointer"
+                   data-aos="fade-up"
+                   data-aos-delay="{{ $loop->index * 100 }}"
+                   data-title="{{ $item->judul_proyek }}"
+                   data-img-src="{{ asset($item->gambar_url) }}"
+                   data-desc="{{ $item->deskripsi_proyek }}"
+                   data-github="{{ $item->link_github }}"
+                   data-toko="{{ $item->link_toko }}"
+                   onclick="openModal(this)" {{-- EVENT CLICK HANDLER --}}
+                   onmouseover="setActiveProject('{{ $imgId }}')"
+                   onmouseleave="unsetActiveProject('{{ $imgId }}')">
 
-            @foreach ($proyek as $item)
-            <div class="section-animate">
-                <div class="bg-gray-900 rounded-lg shadow-lg p-6 md:p-8 flex flex-col md:flex-row items-center justify-between transition-all duration-300 hover:shadow-brand-purple/20 space-y-5 md:space-y-0 md:space-x-8">
-
-                    <div class="flex flex-col md:flex-row items-center space-y-5 md:space-y-0 md:space-x-8 w-full md:w-auto">
-                        <img
-                            src="{{ asset($item->gambar_url) }}"
-                            alt="{{ $item->judul_proyek }}"
-                            class="w-full h-48 md:w-64 md:h-36 object-cover rounded-md flex-shrink-0 border border-gray-700"
-                        />
-                        <h3 class="text-2xl md:text-3xl font-bold text-white text-center md:text-left">
+                    <div class="flex-grow">
+                        <h3 class="text-3xl sm:text-4xl font-heading font-bold text-white uppercase group-hover:text-cyan-400 transition-colors duration-300">
                             {{ $item->judul_proyek }}
                         </h3>
                     </div>
+                    <span class="text-xl font-sans text-gray-600 group-hover:text-gray-400 transition-colors project-number">
+                        {{ str_pad($loop->iteration, 3, '0', STR_PAD_LEFT) }}
+                    </span>
+                    <div class="project-highlight-line"></div>
 
-                    <button
-                        @click.prevent="selectedProject = allProjects[{{ $loop->index }}]"
-                        class="w-full md:w-auto px-6 py-3 bg-brand-purple text-white text-lg font-semibold rounded-lg shadow-lg hover:shadow-brand-purple/40 hover:bg-opacity-90 transition-all duration-300 flex-shrink-0"
-                    >
-                        View Details
-                    </button>
-
-                </div>
-            </div>
-            @endforeach
-
+                    <div class="project-image-preview" id="{{ $imgId }}">
+                        <img src="{{ asset($item->gambar_url) }}" alt="{{ $item->judul_proyek }}"
+                            class="w-full h-full object-cover"
+                            onerror="this.src='https://placehold.co/600x400/18181b/00ffff?text=IMG_ERROR'">
+                    </div>
+                </a>
+            @empty
+                {{-- Bagian empty biarkan saja --}}
+                <div class="py-8 text-white">Belum ada project.</div>
+            @endforelse
         </div>
     </div>
 </section>

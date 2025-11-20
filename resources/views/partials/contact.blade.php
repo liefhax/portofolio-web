@@ -1,83 +1,89 @@
-<section
-    id="contact"
-    class="py-20 bg-brand-black w-full min-h-screen flex items-center justify-center pt-20 pb-10"
->
-    <div class="w-full px-6 md:px-12 fade-in">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center max-w-6xl mx-auto">
+<section id="contact" class="py-20 scroll-mt-20" data-aos="fade-up">
 
-            <div class="text-center md:text-left">
-                <h2 class="text-4xl md:text-5xl font-bold text-white mb-8">
-                    Get in Touch
-                </h2>
-                <p class="text-lg md:text-xl text-gray-400 max-w-lg mb-10 leading-relaxed">
-                    For business and partnership inquiry please contact me
-                    below!
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <h2 class="text-4xl font-heading font-bold text-cyan-400 mb-12 text-center animate-neonFlicker" data-aos="fade-up">
+            // GET IN TOUCH //
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+
+            <div data-aos="fade-right" data-aos-delay="100">
+                <p class="text-lg text-gray-300 mb-10 leading-relaxed font-sans">
+                    > Punya ide proyek, pertanyaan, atau cuma mau nyapa?
+                    Kirim sinyal. Saya menunggu di seberang koneksi.
                 </p>
 
                 <div class="space-y-8">
 
-                    <div class="flex items-start space-x-6">
+                    <a href="https://wa.me/{{ $biodata->telepon_wa }}" target="_blank" rel="noopener noreferrer"
+                       class="flex items-center space-x-4 group" data-aos="fade-up" data-aos-delay="200">
                         <div class="flex-shrink-0">
-                            <span class="flex items-center justify-center w-14 h-14 rounded-full bg-gray-800 text-brand-purple">
+                            <span class="flex items-center justify-center w-14 h-14 rounded-full
+                                         border-2 border-zinc-700 text-gray-600
+                                         transition-all duration-300
+                                         group-hover:border-cyan-400 group-hover:text-cyan-400 group-hover:scale-110">
                                 <x-icons.phone-icon class="w-7 h-7" />
                             </span>
                         </div>
                         <div>
-                            <h4 class="text-xl font-semibold text-white mb-1">Phone (WhatsApp)</h4>
-                            <a
-                                href="https://wa.me/{{ $biodata->telepon_wa }}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="text-lg text-gray-400 hover:text-brand-purple transition-colors"
-                            >
+                            <h4 class="text-xl font-heading text-white mb-1">Phone (WhatsApp)</h4>
+                            <p class="text-lg text-gray-400 font-sans
+                                      transition-colors duration-300
+                                      group-hover:text-cyan-400">
                                 {{ $biodata->telepon }}
-                            </a>
+                            </p>
                         </div>
-                    </div>
+                    </a>
 
-                    <div class="flex items-start space-x-6">
+                    <a href="mailto:{{ $biodata->email }}"
+                       class="flex items-center space-x-4 group" data-aos="fade-up" data-aos-delay="300">
                         <div class="flex-shrink-0">
-                            <span class="flex items-center justify-center w-14 h-14 rounded-full bg-gray-800 text-brand-purple">
+                            <span class="flex items-center justify-center w-14 h-14 rounded-full
+                                         border-2 border-zinc-700 text-gray-600
+                                         transition-all duration-300
+                                         group-hover:border-cyan-400 group-hover:text-cyan-400 group-hover:scale-110">
                                 <x-icons.mail-icon class="w-7 h-7" />
                             </span>
                         </div>
                         <div>
-                            <h4 class="text-xl font-semibold text-white mb-1">Email</h4>
-                            <a
-                                href="mailto:{{ $biodata->email }}"
-                                class="text-lg text-gray-400 hover:text-brand-purple transition-colors"
-                            >
+                            <h4 class="text-xl font-heading text-white mb-1">Email</h4>
+                            <p class="text-lg text-gray-400 font-sans
+                                      transition-colors duration-300
+                                      group-hover:text-cyan-400">
                                 {{ $biodata->email }}
-                            </a>
+                            </p>
                         </div>
-                    </div>
+                    </a>
 
-                    <div class="flex items-start space-x-6">
+                    <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($biodata->alamat) }}" target="_blank" rel="noopener noreferrer"
+                       class="flex items-center space-x-4 group" data-aos="fade-up" data-aos-delay="400">
                         <div class="flex-shrink-0">
-                            <span class="flex items-center justify-center w-14 h-14 rounded-full bg-gray-800 text-brand-purple">
+                            <span class="flex items-center justify-center w-14 h-14 rounded-full
+                                         border-2 border-zinc-700 text-gray-600
+                                         transition-all duration-300
+                                         group-hover:border-cyan-400 group-hover:text-cyan-400 group-hover:scale-110">
                                 <x-icons.map-pin-icon class="w-7 h-7" />
                             </span>
                         </div>
                         <div>
-                            <h4 class="text-xl font-semibold text-white mb-1">Address</h4>
-                            <a
-                                href="https://www.google.com/maps/search/?api=1&query={{ urlencode($biodata->alamat) }}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="text-lg text-gray-400 hover:text-brand-purple transition-colors"
-                            >
+                            <h4 class="text-xl font-heading text-white mb-1">Address</h4>
+                            <p class="text-lg text-gray-400 font-sans
+                                      transition-colors duration-300
+                                      group-hover:text-cyan-400">
                                 {{ $biodata->alamat }}
-                            </a>
+                            </p>
                         </div>
-                    </div>
+                    </a>
 
                 </div>
             </div>
 
-            <div class="hidden md:flex items-center justify-center relative h-96">
-                <x-icons.map-pin-icon class="w-32 h-32 text-gray-700" />
+            <div class="hidden md:flex items-center justify-center" data-aos="fade-left" data-aos-delay="100">
+                <x-icons.map-pin-icon class="w-48 h-48 text-zinc-800" />
             </div>
 
         </div>
+
     </div>
 </section>
